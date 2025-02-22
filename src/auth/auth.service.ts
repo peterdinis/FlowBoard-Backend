@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { LoginUserDto } from './dto/login-dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
+import { RegisterDto } from './dto/register-dto';
 
 @Injectable()
 export class AuthService {
@@ -27,10 +28,10 @@ export class AuthService {
     };
   }
 
-  async register(email: string, password: string, name: string, lastName: string) {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  async register(registerDto: RegisterDto) {
+    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     return this.prisma.user.create({
-      data: { email, password: hashedPassword, name, lastName },
+      data: { email: registerDto.email, password: hashedPassword, name: registerDto.name, lastName: registerDto.lastName },
     });
   }
 }
