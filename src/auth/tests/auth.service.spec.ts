@@ -40,13 +40,15 @@ describe('AuthService', () => {
   describe('validateUser', () => {
     it('should return user if credentials are valid', async () => {
       const mockUser = {
-        id: 1,
+        id: '1', // Update to match string ID type from Prisma schema
         email: 'test@example.com',
         password: await bcrypt.hash('password123', 10),
+        name: 'John',
+        lastName: 'Doe',
+        createdAt: new Date(),
       };
 
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
       const result = await authService.validateUser({
         email: 'test@example.com',
@@ -70,7 +72,11 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('should return JWT token', async () => {
-      const mockUser = { id: 1, email: 'test@example.com' };
+      const mockUser = {
+        id: '1',
+        email: 'test@example.com',
+        password: 'Random124UIREORHTSHRBEWIWIW',
+      };
       const result = await authService.login(mockUser);
 
       expect(result).toEqual({ access_token: 'mocked_token' });
@@ -91,13 +97,15 @@ describe('AuthService', () => {
       };
 
       const mockCreatedUser = {
-        id: 2,
+        id: '2',
         ...mockRegisterDto,
         password: await bcrypt.hash(mockRegisterDto.password, 10),
+        createdAt: new Date(),
       };
 
-      jest.spyOn(prismaService.user, 'create').mockResolvedValue(mockCreatedUser);
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue(mockCreatedUser.password);
+      jest
+        .spyOn(prismaService.user, 'create')
+        .mockResolvedValue(mockCreatedUser);
 
       const result = await authService.register(mockRegisterDto);
 
