@@ -19,6 +19,5 @@ model User {
   password String
   name     String
   lastName String
-  position String
   createdAt DateTime @default(now())
 }
