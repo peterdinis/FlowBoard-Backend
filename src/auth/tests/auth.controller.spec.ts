@@ -60,6 +60,10 @@ describe('AuthController', () => {
       const mockUser = {
         id: '1',
         email: 'test@example.com',
+        password: "password123",
+        createdAt: new Date(),
+        name: "AAA",
+        lastName: "BBB"
       };
 
       const mockJwtToken = { access_token: 'mocked_token' };
