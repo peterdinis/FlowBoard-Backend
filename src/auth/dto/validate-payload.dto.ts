@@ -1,11 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class ValidatePayloadDto {
-    @IsString()
-    @IsNotEmpty()
-    sub: string
+  @IsString()
+  @IsNotEmpty()
+  sub: string;
 
-    @IsEmail()
-    @IsNotEmpty()
-    email: string
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 }

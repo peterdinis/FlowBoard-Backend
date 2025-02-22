@@ -10,12 +10,17 @@ import { RegisterDto } from './dto/register-dto';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private prisma: PrismaService
+    private prisma: PrismaService,
   ) {}
 
   async validateUser(validateUserDto: ValidateUserDto) {
-    const user = await this.prisma.user.findUnique({ where: { email: validateUserDto.email } });
-    if (!user || !(await bcrypt.compare(validateUserDto.password, user.password))) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: validateUserDto.email },
+    });
+    if (
+      !user ||
+      !(await bcrypt.compare(validateUserDto.password, user.password))
+    ) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return user;
@@ -31,7 +36,12 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     return this.prisma.user.create({
-      data: { email: registerDto.email, password: hashedPassword, name: registerDto.name, lastName: registerDto.lastName },
+      data: {
+        email: registerDto.email,
+        password: hashedPassword,
+        name: registerDto.name,
+        lastName: registerDto.lastName,
+      },
     });
   }
 }

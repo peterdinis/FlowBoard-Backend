@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('FlowBoard API')
     .setDescription('Api Docs to flow-board project')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
