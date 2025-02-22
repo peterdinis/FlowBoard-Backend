@@ -21,3 +21,11 @@ model User {
   lastName String
   createdAt DateTime @default(now())
 }
+
+model Project {
+   id       String @id @default(uuid())
+   name     String
+   bio      String
+   icon     String
+   createdAt DateTime @default(now())
+}
